@@ -14,14 +14,14 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ros_modbus_msgs REQUIRED)
-find_library(modbus REQUIRED)
-find_library(yaml-cpp REQUIRED)
+find_library(MODBUS_LIBRARY NAMES modbus REQUIRED)
+find_library(YAML_CPP_LIBRARY NAMES yaml-cpp REQUIRED)
 
 # main code is a node class + standalone executable
 add_executable(modbus_node src/modbus_node.cpp src/modbus_interface.cpp)
 target_include_directories(modbus_node PRIVATE include)
-target_link_libraries(modbus_node ${rclcpp_LIBRARIES} yaml-cpp modbus)
-ament_target_dependencies(modbus_node std_msgs ros_modbus_msgs)
+target_link_libraries(modbus_node ${YAML_CPP_LIBRARY} ${MODBUS_LIBRARY})
+ament_target_dependencies(modbus_node rclcpp std_msgs ros_modbus_msgs)
 
 install(TARGETS modbus_node
   ARCHIVE DESTINATION lib
